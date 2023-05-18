@@ -1,0 +1,46 @@
+/* Main css */
+.w-full {
+    width: 100% !important;
+}
+
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+/* nav bar */
+.nav-link-ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+}
+
+.nav-link-li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.nav-link-li a.active {
+    background-color: #04AA6D;
+    color: white;
+}
+
+.nav-link-li a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
