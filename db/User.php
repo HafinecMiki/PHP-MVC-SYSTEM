@@ -9,11 +9,7 @@ class User
 	private $user_email;
 	private $user_password;
 	private $user_birth_date;
-	private $user_status;
-	private $user_created_on;
-	private $user_verification_code;
 	private $user_token;
-	private $user_connection_id;
 	public $connect;
 
 	public function __construct()
@@ -24,7 +20,7 @@ class User
 
 		$this->connect = $database_object->connect();
 	}
-
+	
 	function setUserId($user_id)
 	{
 		$this->user_id = $user_id;
@@ -75,36 +71,6 @@ class User
 		return $this->user_birth_date;
 	}
 
-	function setUserStatus($user_status)
-	{
-		$this->user_status = $user_status;
-	}
-
-	function getUserStatus()
-	{
-		return $this->user_status;
-	}
-
-	function setUserCreatedOn($user_created_on)
-	{
-		$this->user_created_on = $user_created_on;
-	}
-
-	function getUserCreatedOn()
-	{
-		return $this->user_created_on;
-	}
-
-	function setUserVerificationCode($user_verification_code)
-	{
-		$this->user_verification_code = $user_verification_code;
-	}
-
-	function getUserVerificationCode()
-	{
-		return $this->user_verification_code;
-	}
-
 	function setUserToken($user_token)
 	{
 		$this->user_token = $user_token;
@@ -113,16 +79,6 @@ class User
 	function getUserToken()
 	{
 		return $this->user_token;
-	}
-
-	function setUserConnectionId($user_connection_id)
-	{
-		$this->user_connection_id = $user_connection_id;
-	}
-
-	function getUserConnectionId()
-	{
-		return $this->user_connection_id;
 	}
 
 	function make_avatar($character)
@@ -164,8 +120,8 @@ class User
 	function save_data()
 	{
 		$query = "
-		INSERT INTO user_table (user_name, user_email, user_password, user_birth_date, user_status, user_created_on, user_verification_code) 
-		VALUES (:user_name, :user_email, :user_password, :user_birth_date, :user_status, :user_created_on, :user_verification_code)
+		INSERT INTO user_table (user_name, user_email, user_password, user_birth_date) 
+		VALUES (:user_name, :user_email, :user_password, :user_birth_date)
 		";
 		$statement = $this->connect->prepare($query);
 
@@ -176,59 +132,6 @@ class User
 		$statement->bindParam(':user_password', $this->user_password);
 
 		$statement->bindParam(':user_birth_date', $this->user_birth_date);
-
-		$statement->bindParam(':user_status', $this->user_status);
-
-		$statement->bindParam(':user_created_on', $this->user_created_on);
-
-		$statement->bindParam(':user_verification_code', $this->user_verification_code);
-
-		if($statement->execute())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	function is_valid_email_verification_code()
-	{
-		$query = "
-		SELECT * FROM user_table 
-		WHERE user_verification_code = :user_verification_code
-		";
-
-		$statement = $this->connect->prepare($query);
-
-		$statement->bindParam(':user_verification_code', $this->user_verification_code);
-
-		$statement->execute();
-
-		if($statement->rowCount() > 0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	function enable_user_account()
-	{
-		$query = "
-		UPDATE user_table 
-		SET user_status = :user_status 
-		WHERE user_verification_code = :user_verification_code
-		";
-
-		$statement = $this->connect->prepare($query);
-
-		$statement->bindParam(':user_status', $this->user_status);
-
-		$statement->bindParam(':user_verification_code', $this->user_verification_code);
 
 		if($statement->execute())
 		{
@@ -355,23 +258,6 @@ class User
 		$data = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 		return $data;
-	}
-
-	function update_user_connection_id()
-	{
-		$query = "
-		UPDATE user_table 
-		SET user_connection_id = :user_connection_id 
-		WHERE user_token = :user_token
-		";
-
-		$statement = $this->connect->prepare($query);
-
-		$statement->bindParam(':user_connection_id', $this->user_connection_id);
-
-		$statement->bindParam(':user_token', $this->user_token);
-
-		$statement->execute();
 	}
 
 	function get_user_id_from_token()
