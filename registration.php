@@ -1,63 +1,100 @@
 <!DOCTYPE html>
-<?php 
+<?php
 //starting the session
 session_start();
+
+$error = '';
+
+if (isset($_SESSION['user_data'])) {
+	header('location:home.php');
+}
+
+if (isset($_POST['register'])) {
+
+	require_once('db/User.php');
+
+	$user_object = new User;
+
+	$user_object->setUserName($_POST['user_name']);
+
+	$user_object->setUserEmail($_POST['user_email']);
+
+	$user_object->setUserPassword($_POST['user_password']);
+
+	$user_object->setUserBirthDate($_POST['user_birth_date']);
+
+	$user_data = $user_object->get_user_data_by_email();
+
+	if (is_array($user_data) && count($user_data) > 0) {
+		$error = 'This Email Already Register';
+	} else {
+		if ($user_object->save_data()) {
+			header('location:index.php');
+		} else {
+			$error = 'Something went wrong try again';
+		}
+	}
+}
 ?>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1"/>
-		<!-- Bootstrap -->
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
-	</head>
+
+<head>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- Bootstrap -->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="css/main.css" />
+</head>
+
 <body>
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="https://sourcecodester.com" target="_balnk">Sourcecodester</a>
-		</div>
-	</nav>
 	<div class="col-md-3"></div>
 	<div class="col-md-6 well">
-		<h3 class="text-primary">PHP - Login And Registration To Sqlite Using PDO</h3>
-		<hr style="border-top:1px dotted #ccc;"/>
+		<h3 class="text-primary">Registration</h3>
+		<hr style="border-top:1px dotted #ccc;" />
 		<!-- Link for redirecting to Login Page -->
-		<a href="login.php">Already a member? Log in here...</a>
-		<br style="clear:both;"/><br />
+		<a href="index.php">Already a member? Log in here...</a>
+		<br style="clear:both;" /><br />
 		<div class="col-md-3"></div>
 		<div class="col-md-6">
 			<!-- Registration Form start -->
-			<form method="POST" action="save_member.php">	
-				<div class="alert alert-info">Registration</div>
+			<form method="POST">
 				<div class="form-group">
 					<label>Username</label>
-					<input type="text" name="username" class="form-control" required="required"/>
+					<input type="text" id="user_name" name="user_name" class="form-control" required="required" />
 				</div>
 				<div class="form-group">
 					<label>Password</label>
-					<input type="password" name="password" class="form-control" required="required"/>
+					<input type="password" id="user_password" name="user_password" class="form-control" required="required" />
 				</div>
 				<div class="form-group">
-					<label>Firstname</label>
-					<input type="text" name="firstname" class="form-control" required="required"/>
+					<label>Email</label>
+					<input type="text" id="user_email" name="user_email" class="form-control" required="required" />
 				</div>
 				<div class="form-group">
-					<label>Lastname</label>
-					<input type="text" name="lastname" class="form-control" required="required"/>
+					<label>Birth day</label>
+					<input type="date" id="user_birth_date" name="user_birth_date" min="1915-01-01" max="2015-12-31" />
 				</div>
 				<?php
-					//checking if the session 'success' is set. Success session is the message that the credetials are successfully saved.
-					if(ISSET($_SESSION['success'])){
+				//checking if the session 'success' is set. Success session is the message that the credetials are successfully saved.
+				if (isset($_SESSION['success'])) {
 				?>
-				<!-- Display registration success message -->
-				<div class="alert alert-success"><?php echo $_SESSION['success']?></div>
+					<!-- Display registration success message -->
+					<div class="alert alert-success"><?php echo $_SESSION['success'] ?></div>
 				<?php
 					//Unsetting the 'success' session after displaying the message. 
 					unset($_SESSION['success']);
-					}
+				}
 				?>
-				<button class="btn btn-primary btn-block" name="register"><span class="glyphicon glyphicon-save"></span> Register</button>
-			</form>	
+				<button class="btn btn-primary btn-block" name="register" id="register" type="submit"><span class="glyphicon glyphicon-save"></span> Register</button>
+			</form>
 			<!-- Registration Form end -->
+			<?php
+			if ($error != '') {
+				echo '
+                    <div class="alert alert-danger">' . $error . '</div>';
+			}
+			?>
 		</div>
 	</div>
 </body>
+
 </html>

@@ -21,7 +21,7 @@ if(isset($_SESSION['user_data']))
 		<h3 class="text-primary">Login</h3>
 		<hr style="border-top:1px dotted #ccc;"/>
 		<!-- Link for redirecting page to Registration page -->
-		<a href="index.php">Not a member yet? Register here...</a>
+		<a href="registration.php">Not a member yet? Register here...</a>
 		<br style="clear:both;"/><br />
 		<div class="col-md-3"></div>
 		<div class="col-md-6">
