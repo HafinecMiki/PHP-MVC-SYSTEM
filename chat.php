@@ -100,14 +100,14 @@ $user_data = $user_object->get_user_all_data();
 		var background_class = '';
 
 		if (data.from == 'Me') {
-			row_class = 'row justify-content-start';
+			row_class = 'row margin-right-none justify-content-end';
 			background_class = 'text-dark alert-light';
 		} else {
-			row_class = 'row justify-content-end';
+			row_class = 'row margin-right-none justify-content-start';
 			background_class = 'alert-success';
 		}
 
-		var html_data = "<div class='" + row_class + "'><div class='col-sm-10'><div class='alert " + background_class + "'><b>" + data.from + " - </b>" + data.msg + "<br /><div class='text-right'><small><i>" + data.dt + "</i></small></div></div></div></div>";
+		var html_data = "<div class='" + row_class + "'><div class='col-sm-6'><div class='alert " + background_class + "'><b>" + data.from + " - </b>" + data.msg + "<br /><div class='text-right'><small><i>" + data.dt + "</i></small></div></div></div></div>";
 
 		let messages_area = document.getElementById('messages_area');
 
