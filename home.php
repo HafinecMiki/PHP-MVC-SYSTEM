@@ -71,7 +71,7 @@ foreach ($_SESSION['user_data'] as $key => $value) {
 															} ?>">Chat</a></li>
 				</ul>
 			</div>
-			<div class="col-md-8">
+			<div class="col-md-8 padding-right-none">
 				<div>
 					<?php include $linkName; ?>
 				</div>

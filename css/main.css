@@ -19,7 +19,6 @@
     justify-content: center;
 }
 
-/* nav bar */
 .nav-link-ul {
     list-style-type: none;
     margin: 0;
@@ -43,4 +42,12 @@
 .nav-link-li a:hover:not(.active) {
     background-color: #555;
     color: white;
+}
+
+.padding-right-none {
+    padding-right: 0 !important;
+}
+
+.margin-right-none {
+    margin-right: 0 !important;
 }
