@@ -29,28 +29,19 @@ if (isset($_POST['analitics'])) {
 }
 ?>
 <html lang="en">
-
-<head>
-	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-	<link rel="stylesheet" type="text/css" href="css/main.css" />
-</head>
-
 <body>
 	<div>
 		<h3 class="text-primary">Elemzes</h3>
 		<hr style="border-top:1px dotted #ccc;" />
 
 		<div class="col-md-6">
-			<!-- Login Form Starts -->
 			<form method="POST">
 				<div class="form-group">
 					<label>Url</label>
-					<input type="text" name="url_link" class="form-control" required="required" />
+					<input type="url" name="url_link" class="form-control" required />
 				</div>
 				<input type="submit" name="analitics" class="btn btn-primary" value="Search" />
 			</form>
-			<!-- Login Form Ends -->
 			<?php
 			if (count($data) > 0) {
 				echo '<h3>Result</h3>';
@@ -73,5 +64,4 @@ if (isset($_POST['analitics'])) {
 		</div>
 	</div>
 </body>
-
 </html>

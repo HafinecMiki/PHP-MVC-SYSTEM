@@ -1,7 +1,5 @@
 <?php
 
-//User.php
-
 class User
 {
 	private $user_id;
@@ -9,6 +7,7 @@ class User
 	private $user_email;
 	private $user_password;
 	private $user_birth_date;
+	private $user_website;
 	private $user_token;
 	public $connect;
 
@@ -81,22 +80,14 @@ class User
 		return $this->user_token;
 	}
 
-	function make_avatar($character)
+	function setUserWebsite($user_website)
 	{
-	    $path = "images/". time() . ".png";
-		$image = imagecreate(200, 200);
-		$red = rand(0, 255);
-		$green = rand(0, 255);
-		$blue = rand(0, 255);
-	    imagecolorallocate($image, $red, $green, $blue);  
-	    $textcolor = imagecolorallocate($image, 255,255,255);
+		$this->user_website = $user_website;
+	}
 
-	    $font = dirname(__FILE__) . '/font/arial.ttf';
-
-	    imagettftext($image, 100, 0, 55, 150, $textcolor, $font, $character);
-	    imagepng($image, $path);
-	    imagedestroy($image);
-	    return $path;
+	function getUserWebsite()
+	{
+		return $this->user_website;
 	}
 
 	function get_user_data_by_email()
@@ -120,8 +111,8 @@ class User
 	function save_data()
 	{
 		$query = "
-		INSERT INTO user_table (user_name, user_email, user_password, user_birth_date) 
-		VALUES (:user_name, :user_email, :user_password, :user_birth_date)
+		INSERT INTO user_table (user_name, user_email, user_password, user_birth_date, user_website) 
+		VALUES (:user_name, :user_email, :user_password, :user_birth_date, :user_website)
 		";
 		$statement = $this->connect->prepare($query);
 
@@ -132,6 +123,8 @@ class User
 		$statement->bindParam(':user_password', $this->user_password);
 
 		$statement->bindParam(':user_birth_date', $this->user_birth_date);
+
+		$statement->bindParam(':user_website', $this->user_website);
 
 		if($statement->execute())
 		{
@@ -202,7 +195,8 @@ class User
 		SET user_name = :user_name, 
 		user_email = :user_email, 
 		user_password = :user_password, 
-		user_birth_date = :user_birth_date  
+		user_birth_date = :user_birth_date,
+		user_website = :user_website  
 		WHERE user_id = :user_id
 		";
 
@@ -215,6 +209,8 @@ class User
 		$statement->bindParam(':user_password', $this->user_password);
 
 		$statement->bindParam(':user_birth_date', $this->user_birth_date);
+
+		$statement->bindParam(':user_website', $this->user_website);
 
 		$statement->bindParam(':user_id', $this->user_id);
 
@@ -235,23 +231,6 @@ class User
 		";
 
 		$statement = $this->connect->prepare($query);
-
-		$statement->execute();
-
-		$data = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-		return $data;
-	}
-
-	function get_user_all_data_with_status_count()
-	{
-		$query = "
-		SELECT user_id, user_name, user_birth_date, user_login_status, (SELECT COUNT(*) FROM chat_message WHERE to_user_id = :user_id AND from_user_id = user_table.user_id AND status = 'No') AS count_status FROM user_table
-		";
-
-		$statement = $this->connect->prepare($query);
-
-		$statement->bindParam(':user_id', $this->user_id);
 
 		$statement->execute();
 

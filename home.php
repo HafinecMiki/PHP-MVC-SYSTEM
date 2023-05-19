@@ -77,9 +77,6 @@ foreach ($_SESSION['user_data'] as $key => $value) {
 				</div>
 			</div>
 		</div>
-
-
-
 	</div>
 </body>
 

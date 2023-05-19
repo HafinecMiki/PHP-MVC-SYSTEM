@@ -1,7 +1,6 @@
 <?php
 
 require('db/User.php');
-
 require('db/ChatRooms.php');
 
 $chat_object = new ChatRooms;
@@ -11,108 +10,9 @@ $chat_data = $chat_object->get_all_chat_data();
 $user_object = new User;
 
 $user_data = $user_object->get_user_all_data();
-
 ?>
-
 <!DOCTYPE html>
-<html>
-
-<head>
-	<style type="text/css">
-		#wrapper {
-			display: flex;
-			flex-flow: column;
-			height: 100%;
-		}
-
-		#remaining {
-			flex-grow: 1;
-		}
-
-		#messages {
-			height: 200px;
-			background: whitesmoke;
-			overflow: auto;
-		}
-
-		#chat-room-frm {
-			margin-top: 10px;
-		}
-
-		#messages_area {
-			height: 400px;
-			overflow-y: auto;
-			background-color: #e6e6e6;
-			padding: 8px;
-		}
-
-		.chat-card {
-			position: relative;
-			display: -webkit-box;
-			display: -ms-flexbox;
-			display: flex;
-			-webkit-box-orient: vertical;
-			-webkit-box-direction: normal;
-			-ms-flex-direction: column;
-			flex-direction: column;
-			min-width: 0;
-			word-wrap: break-word;
-			background-color: #fff;
-			background-clip: border-box;
-			border: 1px solid rgba(0, 0, 0, .125);
-			border-radius: 0.25rem;
-		}
-
-		.justify-content-start {
-			justify-content: flex-start !important;
-		}
-
-		.justify-content-end {
-			display: flex;
-			justify-content: flex-end !important;
-		}
-
-		.max-width-full {
-			max-width: 100%;
-		}
-
-		.text-dark {
-			color: #343a40 !important;
-		}
-
-		.alert-light {
-			color: #818182;
-			background-color: #fefefe;
-			border-color: #fdfdfe;
-		}
-
-		.card-header {
-			margin-left: 8px;
-		}
-
-		.chat-form-control {
-			flex: 1 1 auto;
-			z-index: 2;
-			padding: 0.375rem 0.75rem;
-			border: 1px solid #ced4da;
-			border-radius: 0.25rem;
-		}
-
-		.chat-textarea {
-			font-size: inherit;
-		}
-
-		.input-group-append {
-			margin-left: -1px;
-			display: flex;
-		}
-
-		.input-group {
-			display: flex !important;
-		}
-	</style>
-</head>
-
+<html lang="en">
 <body>
 	<div class="container max-width-full">
 		<div class="row">
@@ -132,27 +32,27 @@ $user_data = $user_object->get_user_all_data();
 					<div class="card-header">
 						<div class="row">
 							<div class="col col-xs-6">
-								<h3>Chat Room</h3>
+								<h4>Chat Room</h3>
 							</div>
 						</div>
 					</div>
-					<div class="card-body" id="messages_area">
+					<div id="messages_area">
 						<?php
 						foreach ($chat_data as $chat) {
 							if (isset($_SESSION['user_data'][$chat['userid']])) {
 								$from = 'Me';
-								$row_class = 'row margin-right-none justify-content-start';
+								$row_class = 'row margin-right-none justify-content-end';
 								$background_class = 'text-dark alert-light';
 							} else {
 								$from = $chat['user_name'];
-								$row_class = 'row margin-right-none justify-content-end';
+								$row_class = 'row margin-right-none justify-content-start';
 								$background_class = 'alert-success';
 							}
 
 							echo '
 						<div class="' . $row_class . '">
 							<div class="col-xs-6">
-								<div class="shadow-sm alert ' . $background_class . '">
+								<div class="alert ' . $background_class . '">
 									<b>' . $from . ' - </b>' . $chat["msg"] . '
 									<br />
 									<div class="text-right">
@@ -168,7 +68,7 @@ $user_data = $user_object->get_user_all_data();
 				</div>
 
 				<form method="post" id="chat_form" data-parsley-errors-container="#validation_error">
-					<div class="input-group mb-3">
+					<div class="input-group flex">
 						<textarea class="chat-form-control chat-textarea" id="chat_message" name="chat_message" placeholder="Type Message Here" required></textarea>
 						<div class="input-group-append">
 							<button type="submit" name="send" id="send" class="btn btn-primary"><i class="fa fa-paper-plane"></i></button>
@@ -184,6 +84,10 @@ $user_data = $user_object->get_user_all_data();
 	var conn = new WebSocket('ws://localhost:8080');
 	conn.onopen = function(e) {
 		console.log("Connection established!");
+	};
+
+	conn.onclose = function(e) {
+		console.log('connection close');
 	};
 
 	conn.onmessage = function(e) {
@@ -203,7 +107,7 @@ $user_data = $user_object->get_user_all_data();
 			background_class = 'alert-success';
 		}
 
-		var html_data = "<div class='" + row_class + "'><div class='col-sm-10'><div class='shadow-sm alert " + background_class + "'><b>" + data.from + " - </b>" + data.msg + "<br /><div class='text-right'><small><i>" + data.dt + "</i></small></div></div></div></div>";
+		var html_data = "<div class='" + row_class + "'><div class='col-sm-10'><div class='alert " + background_class + "'><b>" + data.from + " - </b>" + data.msg + "<br /><div class='text-right'><small><i>" + data.dt + "</i></small></div></div></div></div>";
 
 		let messages_area = document.getElementById('messages_area');
 

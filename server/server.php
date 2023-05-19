@@ -6,17 +6,13 @@ use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 
-
-require dirname(__DIR__) . '/vendor/autoload.php';
-
-//Chat
-
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
+
+require dirname(__DIR__) . '/vendor/autoload.php';
 require dirname(__DIR__) . "/db/User.php";
 require dirname(__DIR__) . "/db/ChatRooms.php";
-require dirname(__DIR__) . "/db/PrivateChat.php";
 
 class Chat implements MessageComponentInterface
 {
@@ -30,7 +26,6 @@ class Chat implements MessageComponentInterface
 
     public function onOpen(ConnectionInterface $conn)
     {
-
         // Store the new connection to send messages to later
         echo 'Server Started';
 
@@ -49,8 +44,6 @@ class Chat implements MessageComponentInterface
             $user_data = $user_object->get_user_id_from_token();
 
             $user_id = $user_data['user_id'];
-
-            $data['status_type'] = 'Online';
 
             $data['user_id_status'] = $user_id;
 
@@ -75,7 +68,6 @@ class Chat implements MessageComponentInterface
         );
 
         $data = json_decode($msg, true);
-        //group chat
 
         $chat_object = new \ChatRooms;
 
@@ -99,10 +91,6 @@ class Chat implements MessageComponentInterface
 
 
         foreach ($this->clients as $client) {
-            /*if ($from !== $client) {
-                    // The sender is not the receiver, send to each client connected
-                    $client->send($msg);
-                }*/
 
             if ($from == $client) {
                 $data['from'] = 'Me';

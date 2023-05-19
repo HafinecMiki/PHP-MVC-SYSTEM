@@ -21,7 +21,9 @@ if (isset($_POST['register'])) {
 
 	$user_object->setUserPassword($_POST['user_password']);
 
-	$user_object->setUserBirthDate($_POST['user_birth_date']);
+	$user_object->setUserBirthDate($_POST['user_birth_date'] ?? null);
+
+	$user_object->setUserWebsite($_POST['user_website'] ?? null);
 
 	$user_data = $user_object->get_user_data_by_email();
 
@@ -59,19 +61,23 @@ if (isset($_POST['register'])) {
 			<form method="POST">
 				<div class="form-group">
 					<label>Username</label>
-					<input type="text" id="user_name" name="user_name" class="form-control" required="required" />
+					<input type="text" id="user_name" name="user_name" class="form-control" required />
 				</div>
 				<div class="form-group">
 					<label>Password</label>
-					<input type="password" id="user_password" name="user_password" class="form-control" required="required" />
+					<input type="password" id="user_password" name="user_password" class="form-control" pattern=".{8,}" required />
 				</div>
 				<div class="form-group">
 					<label>Email</label>
-					<input type="text" id="user_email" name="user_email" class="form-control" required="required" />
+					<input type="text" id="user_email" name="user_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control" required />
 				</div>
 				<div class="form-group">
 					<label>Birth day</label>
 					<input type="date" id="user_birth_date" name="user_birth_date" min="1915-01-01" max="2015-12-31" />
+				</div>
+				<div class="form-group">
+					<label>Website</label>
+					<input type="url" id="user_website" name="user_website" class="form-control" />
 				</div>
 				<?php
 				//checking if the session 'success' is set. Success session is the message that the credetials are successfully saved.
