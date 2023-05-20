@@ -75,8 +75,6 @@ class Chat implements MessageComponentInterface
 
         $chat_object->setMessage($data['msg']);
 
-        $chat_object->setCreatedOn(date("Y-m-d h:i:s"));
-
         $chat_object->save_chat();
 
         $user_object = new \User;

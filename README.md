@@ -22,7 +22,7 @@ CREATE TABLE `chatrooms` (
   `id` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
   `msg` varchar(200) NOT NULL,
-  `created_on` datetime NOT NULL
+  `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -38,8 +38,8 @@ CREATE TABLE `user_table` (
   `user_password` varchar(100) NOT NULL,
   `user_birth_date` date,
   `user_website` varchar(250),
-  `user_token` varchar(250) NOT NULL,
-  `user_created_on` datetime NOT NULL
+  `user_token` varchar(250),
+  `user_created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

@@ -5,7 +5,6 @@ class ChatRooms
 	private $chat_id;
 	private $user_id;
 	private $message;
-	private $created_on;
 	protected $connect;
 
 	public function setChatId($chat_id)
@@ -38,16 +37,6 @@ class ChatRooms
 		return $this->message;
 	}
 
-	function setCreatedOn($created_on)
-	{
-		$this->created_on = $created_on;
-	}
-
-	function getCreatedOn()
-	{
-		return $this->created_on;
-	}
-
 	public function __construct()
 	{
 		require_once("Database_connection.php");
@@ -61,8 +50,8 @@ class ChatRooms
 	{
 		$query = "
 		INSERT INTO chatrooms 
-			(userid, msg, created_on) 
-			VALUES (:userid, :msg, :created_on)
+			(userid, msg) 
+			VALUES (:userid, :msg)
 		";
 
 		$statement = $this->connect->prepare($query);
@@ -70,8 +59,6 @@ class ChatRooms
 		$statement->bindParam(':userid', $this->user_id);
 
 		$statement->bindParam(':msg', $this->message);
-
-		$statement->bindParam(':created_on', $this->created_on);
 
 		$statement->execute();
 	}
