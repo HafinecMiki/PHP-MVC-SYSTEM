@@ -1,15 +1,19 @@
 # PHP-MVC-SYSTEM
 PHP Simple routing and MVC system
 
+Please download and install Xampp:
 
---
--- Database: `mvc`
---
+https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/8.2.4/xampp-windows-x64-8.2.4-0-VS16-installer.exe/download
 
--- --------------------------------------------------------
+After installation, please move project to C:\xampp\htdocs folder and run Apache and MySQL server in Xampp Controll Panel Apache. Open phpmyadmin page and put sql commands.
 
-CREATE Database mvc2;
+Database: `mvc`
 
+```CREATE Database mvc;```
+
+Click the database and put sql command:
+
+```
 --
 -- Table structure for table `chatrooms`
 --
@@ -69,3 +73,14 @@ ALTER TABLE `chatrooms`
 --
 ALTER TABLE `user_table`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  
+  ```
+After creating database, open command line in project folder and run:
+
+```composer install```
+
+```php server/server.php```
+
+Open in browser:
+
+```localhost/PHP-MVC-SYSTEM```
