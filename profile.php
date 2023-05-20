@@ -58,7 +58,7 @@ if (isset($_POST['edit'])) {
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" name="user_email" id="user_email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required value="<?php echo $user_data['user_email']; ?>" />
+                    <input type="email" name="user_email" id="user_email" class="form-control" required value="<?php echo $user_data['user_email']; ?>" />
                 </div>
                 <div class="form-group">
                     <label>Birth day (<?php echo $diff->format('%y') ?>)</label>

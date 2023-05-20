@@ -69,7 +69,7 @@ if (isset($_POST['register'])) {
 				</div>
 				<div class="form-group">
 					<label>Email</label>
-					<input type="text" id="user_email" name="user_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control" required />
+					<input type="email" id="user_email" name="user_email" class="form-control" required />
 				</div>
 				<div class="form-group">
 					<label>Birth day</label>
